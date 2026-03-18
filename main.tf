@@ -1,28 +1,28 @@
 module "aws_vpc_main" {
   source = "./terraform/aws-vpc-main"
 
-  region   = var.region
-  vpc_name = var.vpc_name
-  vpc_cidr = var.vpc_cidr
-  azs      = var.azs
-  ssh_ingress_cidr = var.ssh_ingress_cidr
+  region             = var.region
+  vpc_name           = var.vpc_name
+  vpc_cidr           = var.vpc_cidr
+  azs                = var.azs
+  ssh_ingress_cidr   = var.ssh_ingress_cidr
   enable_nat_gateway = var.enable_main_nat_gateway
 }
 
 module "aws_vpc_spoke" {
   source = "./terraform/aws-vpc-main"
 
-  region                = var.region
-  vpc_name              = var.spoke_vpc_name
-  vpc_cidr              = var.spoke_vpc_cidr
-  azs                   = var.azs
-  ssh_ingress_cidr      = var.ssh_ingress_cidr
-  subnet_name_prefix    = var.spoke_subnet_name_prefix
-  subnet_public1_a_cidr = var.spoke_subnet_public1_a_cidr
-  subnet_public2_b_cidr = var.spoke_subnet_public2_b_cidr
+  region                 = var.region
+  vpc_name               = var.spoke_vpc_name
+  vpc_cidr               = var.spoke_vpc_cidr
+  azs                    = var.azs
+  ssh_ingress_cidr       = var.ssh_ingress_cidr
+  subnet_name_prefix     = var.spoke_subnet_name_prefix
+  subnet_public1_a_cidr  = var.spoke_subnet_public1_a_cidr
+  subnet_public2_b_cidr  = var.spoke_subnet_public2_b_cidr
   subnet_private1_a_cidr = var.spoke_subnet_private1_a_cidr
   subnet_private2_b_cidr = var.spoke_subnet_private2_b_cidr
-  enable_nat_gateway      = var.enable_spoke_nat_gateway
+  enable_nat_gateway     = var.enable_spoke_nat_gateway
 }
 
 resource "aws_vpc_peering_connection" "main_to_spoke" {
@@ -126,20 +126,20 @@ resource "aws_route53_record" "web2_internal" {
 module "aws_monitoring" {
   source = "./terraform/aws-monitoring"
 
-  instance_name           = var.monitoring_instance_name
-  instance_ami            = var.ec2_ami
-  instance_type           = var.monitoring_instance_type
-  key_name                = var.monitoring_key_name
-  subnet_id               = module.aws_vpc_spoke.subnet_public1_a_id
-  vpc_id                  = module.aws_vpc_spoke.vpc_id
-  admin_ingress_cidr      = var.ssh_ingress_cidr
-  internal_dns_zone_name  = var.internal_dns_zone_name
-  web1_private_ip         = module.aws_ec2_1.web_instance_private_ip
-  web2_private_ip         = module.aws_ec2_2.web_instance_private_ip
-  grafana_admin_user      = var.grafana_admin_user
-  grafana_admin_password  = var.grafana_admin_password
-  postgres_exporter_host  = var.postgres_exporter_host
-  postgres_exporter_port  = var.postgres_exporter_port
+  instance_name              = var.monitoring_instance_name
+  instance_ami               = var.ec2_ami
+  instance_type              = var.monitoring_instance_type
+  key_name                   = var.monitoring_key_name
+  subnet_id                  = module.aws_vpc_spoke.subnet_public1_a_id
+  vpc_id                     = module.aws_vpc_spoke.vpc_id
+  admin_ingress_cidr         = var.ssh_ingress_cidr
+  internal_dns_zone_name     = var.internal_dns_zone_name
+  web1_private_ip            = module.aws_ec2_1.web_instance_private_ip
+  web2_private_ip            = module.aws_ec2_2.web_instance_private_ip
+  grafana_admin_user         = var.grafana_admin_user
+  grafana_admin_password     = var.grafana_admin_password
+  postgres_exporter_host     = var.postgres_exporter_host
+  postgres_exporter_port     = var.postgres_exporter_port
   postgres_exporter_database = var.postgres_exporter_database
   postgres_exporter_user     = var.postgres_exporter_user
   postgres_exporter_password = var.postgres_exporter_password
@@ -212,8 +212,8 @@ module "aws_alb" {
 module "aws_rds" {
   source = "./terraform/aws-rds"
 
-  db_identifier         = var.rds_identifier
-  db_subnet_group_name  = var.rds_subnet_group_name
+  db_identifier        = var.rds_identifier
+  db_subnet_group_name = var.rds_subnet_group_name
   db_subnet_ids = [
     module.aws_vpc_main.subnet_private1_a_id,
     module.aws_vpc_main.subnet_private2_b_id,

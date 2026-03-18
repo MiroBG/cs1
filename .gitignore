@@ -4,6 +4,11 @@
 *.tfstate.*
 crash.log
 crash.*.log
+backups/
+console-to-code.txt
+
+# Prevent accidental nested repo commits
+cs1/
 
 # Terraform variable/secrets files
 *.tfvars

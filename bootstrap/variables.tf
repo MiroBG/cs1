@@ -25,7 +25,7 @@ variable "lock_table_name" {
 variable "tags" {
   description = "Tags applied to backend resources"
   type        = map(string)
-  default     = {
+  default = {
     Project = "cs1"
   }
 }

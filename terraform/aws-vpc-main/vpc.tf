@@ -15,10 +15,10 @@ resource "aws_vpc" "main" {
 module "aws_subnets" {
   source = "../aws-subnets"
 
-  vpc_id                = aws_vpc.main.id
-  subnet_name_prefix    = var.subnet_name_prefix
-  subnet_public1_a_cidr = var.subnet_public1_a_cidr
-  subnet_public2_b_cidr = var.subnet_public2_b_cidr
+  vpc_id                 = aws_vpc.main.id
+  subnet_name_prefix     = var.subnet_name_prefix
+  subnet_public1_a_cidr  = var.subnet_public1_a_cidr
+  subnet_public2_b_cidr  = var.subnet_public2_b_cidr
   subnet_private1_a_cidr = var.subnet_private1_a_cidr
   subnet_private2_b_cidr = var.subnet_private2_b_cidr
 }
