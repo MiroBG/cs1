@@ -1,0 +1,22 @@
+# Terraform local state and caches
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform variable/secrets files
+*.tfvars
+*.tfvars.json
+
+# Local backend config with real bucket/table names
+backend.hcl
+
+# Local keys
+*.pem
+
+# Optional local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
