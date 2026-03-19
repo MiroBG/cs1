@@ -42,7 +42,7 @@ resource "aws_instance" "monitoring" {
   key_name                    = var.key_name
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.monitoring.id]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   user_data_replace_on_change = true
 
   user_data = <<-EOF
@@ -174,4 +174,17 @@ resource "aws_instance" "monitoring" {
   tags = {
     Name = var.instance_name
   }
+}
+
+resource "aws_eip" "monitoring" {
+  domain = "vpc"
+
+  tags = {
+    Name = "${var.instance_name}-eip"
+  }
+}
+
+resource "aws_eip_association" "monitoring" {
+  instance_id   = aws_instance.monitoring.id
+  allocation_id = aws_eip.monitoring.id
 }

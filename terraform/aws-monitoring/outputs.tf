@@ -7,7 +7,7 @@ output "private_ip" {
 }
 
 output "public_ip" {
-  value = aws_instance.monitoring.public_ip
+  value = aws_eip.monitoring.public_ip
 }
 
 output "public_dns" {
