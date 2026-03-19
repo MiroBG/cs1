@@ -60,11 +60,36 @@ jobs:
       - name: Set Terraform variable overrides
         run: |
           ADMIN_CIDR="${{ secrets.ADMIN_INGRESS_CIDR || vars.ADMIN_INGRESS_CIDR }}"
+          GRAFANA_USER="${{ secrets.GRAFANA_ADMIN_USER || vars.GRAFANA_ADMIN_USER }}"
+          GRAFANA_PASS="${{ secrets.GRAFANA_ADMIN_PASSWORD || vars.GRAFANA_ADMIN_PASSWORD }}"
+          PG_EXPORTER_USER="${{ secrets.POSTGRES_EXPORTER_USER || vars.POSTGRES_EXPORTER_USER }}"
+          PG_EXPORTER_PASS="${{ secrets.POSTGRES_EXPORTER_PASSWORD || vars.POSTGRES_EXPORTER_PASSWORD }}"
+
           if [[ -n "$ADMIN_CIDR" ]]; then
             echo "TF_VAR_ssh_ingress_cidr=$ADMIN_CIDR" >> "$GITHUB_ENV"
             echo "Using ADMIN_INGRESS_CIDR from GitHub Secrets/Variables"
           else
             echo "ADMIN_INGRESS_CIDR not set; Terraform default for ssh_ingress_cidr will be used"
+          fi
+
+          if [[ -n "$GRAFANA_USER" ]]; then
+            echo "TF_VAR_grafana_admin_user=$GRAFANA_USER" >> "$GITHUB_ENV"
+            echo "Using GRAFANA_ADMIN_USER from GitHub Secrets/Variables"
+          fi
+
+          if [[ -n "$GRAFANA_PASS" ]]; then
+            echo "TF_VAR_grafana_admin_password=$GRAFANA_PASS" >> "$GITHUB_ENV"
+            echo "Using GRAFANA_ADMIN_PASSWORD from GitHub Secrets/Variables"
+          fi
+
+          if [[ -n "$PG_EXPORTER_USER" ]]; then
+            echo "TF_VAR_postgres_exporter_user=$PG_EXPORTER_USER" >> "$GITHUB_ENV"
+            echo "Using POSTGRES_EXPORTER_USER from GitHub Secrets/Variables"
+          fi
+
+          if [[ -n "$PG_EXPORTER_PASS" ]]; then
+            echo "TF_VAR_postgres_exporter_password=$PG_EXPORTER_PASS" >> "$GITHUB_ENV"
+            echo "Using POSTGRES_EXPORTER_PASSWORD from GitHub Secrets/Variables"
           fi
 
       - name: Terraform destroy
